@@ -133,7 +133,7 @@ This is the cleanest approach.
 2. Go to [https://www.kaggle.com/datasets](https://www.kaggle.com/datasets).
 3. Click **New Dataset** (top right).
 4. Click **Upload** → drag in `Kaggle_EuroSAT_Classification.zip`.
-5. Name it `eurosat-ml-project`.
+5. Name it `Kaggle_EuroSAT_Classification`.
 6. Set visibility to **Private**.
 7. Click **Create**.
 8. Wait for Kaggle to process it (~1–2 minutes).
@@ -141,13 +141,13 @@ This is the cleanest approach.
 **In your notebook:**
 
 1. Click **+ Add Data** on the right panel.
-2. Search for `eurosat-ml-project`.
+2. Search for `Kaggle_EuroSAT_Classification`.
 3. Click **Add**.
-4. The project will be at `/kaggle/input/eurosat-ml-project/Kaggle_EuroSAT_Classification/`.
+4. The project will be at `/kaggle/input/Kaggle_EuroSAT_Classification/`.
 
 In notebook cell 3, the `POSSIBLE_ROOTS` list already includes this path:
 ```python
-"/kaggle/input/eurosat-ml-project/Kaggle_EuroSAT_Classification"
+"/kaggle/input/Kaggle_EuroSAT_Classification"
 ```
 
 ### Option B — Copy Files Directly via Cell Magic
@@ -163,7 +163,7 @@ create each file manually (tedious for large projects but works for quick tests)
 
 2. Or clone from a public GitHub repo if you've pushed the code:
    ```bash
-   !git clone https://github.com/YOUR_USERNAME/eurosat-classification.git /kaggle/working/Kaggle_EuroSAT_Classification
+   !git clone https://github.com/YOUR_USERNAME/Kaggle_EuroSAT_Classification.git /kaggle/working/Kaggle_EuroSAT_Classification
    ```
 
 ---
