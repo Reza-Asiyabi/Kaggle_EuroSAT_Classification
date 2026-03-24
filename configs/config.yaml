@@ -1,0 +1,130 @@
+# ============================================================
+# EuroSAT Land-Use / Land-Cover Classification
+# Master Configuration File
+# ============================================================
+
+project:
+  name: "eurosat-classification"
+  seed: 42
+  output_dir: "outputs"
+
+# ─────────────────────────────────────────────────────────────
+# DATA
+# ─────────────────────────────────────────────────────────────
+data:
+  # Root folder that contains one sub-directory per class:
+  #   EuroSAT/AnnualCrop/  EuroSAT/Forest/  ...
+  dataset_path: "/kaggle/input/eurosat-dataset/EuroSAT"
+
+  # For local runs override with, e.g.:
+  #   python scripts/train.py --data.dataset_path ./data/EuroSAT
+
+  image_size: 224        # resize target (H = W)
+  num_classes: 10
+  num_workers: 4
+  pin_memory: true
+
+  # Stratified split ratios (must sum to 1.0)
+  train_split: 0.70
+  val_split:   0.15
+  test_split:  0.15
+
+  classes:
+    - AnnualCrop
+    - Forest
+    - HerbaceousVegetation
+    - Highway
+    - Industrial
+    - Pasture
+    - PermanentCrop
+    - Residential
+    - River
+    - SeaLake
+
+# ─────────────────────────────────────────────────────────────
+# MODEL
+# ─────────────────────────────────────────────────────────────
+model:
+  # Any model name accepted by timm.create_model()
+  # Examples: efficientnet_b0, vit_base_patch16_224,
+  #           resnet50, convnext_tiny, swin_tiny_patch4_window7_224
+  architecture: "efficientnet_b0"
+  pretrained: true
+  dropout_rate: 0.3
+  # Set true to freeze backbone and train only the head initially
+  freeze_backbone: false
+
+# ─────────────────────────────────────────────────────────────
+# TRAINING
+# ─────────────────────────────────────────────────────────────
+training:
+  epochs: 30
+  batch_size: 64
+  learning_rate: 1.0e-3
+  weight_decay: 1.0e-4
+
+  optimizer: "adamw"          # adamw | adam | sgd
+
+  # LR scheduler: cosine | step | plateau | none
+  scheduler: "cosine"
+  warmup_epochs: 3            # linear warmup before main schedule
+  min_lr: 1.0e-6              # floor for cosine schedule
+
+  # step-LR params (used only when scheduler = "step")
+  step_size: 10
+  gamma: 0.1
+
+  grad_clip: 1.0              # max gradient norm (0 = disabled)
+  mixed_precision: true       # use torch.cuda.amp
+
+  label_smoothing: 0.1        # 0.0 = disabled
+
+  # ── Checkpointing ──
+  checkpoint_dir: "outputs/checkpoints"
+  save_every_n_epochs: 5      # save a periodic snapshot
+  keep_top_k: 3               # keep only the k best val-accuracy checkpoints
+  resume_from: null           # path to a .pt file, or null
+
+# ─────────────────────────────────────────────────────────────
+# AUGMENTATION
+# ─────────────────────────────────────────────────────────────
+augmentation:
+  train:
+    random_resized_crop: true   # RandomResizedCrop(image_size, scale=(0.7, 1.0))
+    random_horizontal_flip: true
+    random_vertical_flip: true
+    random_rotation: 30         # degrees
+    color_jitter:
+      brightness: 0.3
+      contrast:   0.3
+      saturation: 0.3
+      hue:        0.1
+    random_erasing:
+      enabled: true
+      probability: 0.25
+    normalize:
+      mean: [0.485, 0.456, 0.406]
+      std:  [0.229, 0.224, 0.225]
+
+  val:
+    normalize:
+      mean: [0.485, 0.456, 0.406]
+      std:  [0.229, 0.224, 0.225]
+
+# ─────────────────────────────────────────────────────────────
+# LOGGING
+# ─────────────────────────────────────────────────────────────
+logging:
+  log_every_n_steps: 20
+  use_wandb: false
+  wandb_project: "eurosat-classification"
+  wandb_entity: null           # your W&B username / team
+
+# ─────────────────────────────────────────────────────────────
+# EVALUATION
+# ─────────────────────────────────────────────────────────────
+evaluation:
+  batch_size: 128
+  output_dir: "outputs/evaluation"
+  # Which checkpoint to evaluate (null = best_model.pt)
+  checkpoint_path: null

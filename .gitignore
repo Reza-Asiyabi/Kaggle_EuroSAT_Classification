@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data (too large for git)
+data/
+*.zip
+*.tar.gz
+
+# Model outputs (large binary files)
+outputs/checkpoints/*.pt
+outputs/checkpoints/*.pth
+
+# Keep the outputs directory structure
+!outputs/.gitkeep
+!outputs/checkpoints/.gitkeep
+!outputs/evaluation/.gitkeep
+
+# Kaggle API credentials (NEVER commit this)
+kaggle.json
+.kaggle/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
