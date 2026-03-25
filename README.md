@@ -80,32 +80,44 @@ can be specified in the config with zero code changes.
 
 ## Results
 
-Results on the **test split** (15% of 27,000 images = ~4,050 samples),
-trained for 30 epochs on an NVIDIA T4 GPU.
+Results on the **test split** (15% of 27,000 images = 4,050 samples),
+trained for 30 epochs.
 
-| Model | Test Accuracy | F1 Macro | Training Time |
-|---|---|---|---|
-| EfficientNet-B0 (default) | **92.1%** | **0.921** | ~18 min |
-| ResNet-50 | 90.3% | 0.901 | ~20 min |
-| ViT-Small/16 | 91.5% | 0.914 | ~22 min |
-| ConvNeXt-Tiny | 92.4% | 0.923 | ~20 min |
+| Model | Test Accuracy | F1 Macro | F1 Weighted | Training Time |
+|---|---|---|---|---|
+| EfficientNet-B0 (default) | **98.59%** | **0.9855** | **0.9859** | — |
+| ResNet-50 | — | — | — | — |
+| ViT-Small/16 | — | — | — | — |
+| ConvNeXt-Tiny | — | — | — | — |
 
-*Times on Kaggle T4 GPU. Local GPU times will vary.*
+*Results for models other than EfficientNet-B0 are pending.*
 
 ### Per-class F1 (EfficientNet-B0)
 
-| Class | F1 Score |
-|---|---|
-| SeaLake | 0.982 |
-| Forest | 0.979 |
-| Residential | 0.971 |
-| Industrial | 0.968 |
-| Highway | 0.942 |
-| River | 0.931 |
-| AnnualCrop | 0.908 |
-| HerbaceousVegetation | 0.887 |
-| PermanentCrop | 0.871 |
-| Pasture | 0.852 |
+| Class | Precision | Recall | F1 Score | Support |
+|---|---|---|---|---|
+| Residential | 0.9956 | 0.9978 | **0.9967** | 450 |
+| SeaLake | 1.0000 | 0.9911 | **0.9955** | 450 |
+| Industrial | 0.9947 | 0.9920 | **0.9933** | 375 |
+| River | 0.9842 | 0.9973 | **0.9907** | 375 |
+| Forest | 0.9911 | 0.9933 | **0.9922** | 450 |
+| Highway | 0.9919 | 0.9840 | **0.9880** | 375 |
+| AnnualCrop | 0.9779 | 0.9844 | **0.9812** | 450 |
+| HerbaceousVegetation | 0.9798 | 0.9689 | **0.9743** | 450 |
+| Pasture | 0.9797 | 0.9667 | **0.9732** | 300 |
+| PermanentCrop | 0.9607 | 0.9787 | **0.9696** | 375 |
+
+### Training Curves
+
+![Training Curves](outputs/evaluation/training_curves.png)
+
+### Confusion Matrix
+
+![Confusion Matrix](outputs/evaluation/confusion_matrix.png)
+
+### Per-class F1 Chart
+
+![Per-class F1](outputs/evaluation/f1_per_class.png)
 
 ---
 
